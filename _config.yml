@@ -3,7 +3,7 @@ description: "Portfolio and Blog — DevOps | Cloud | Platform Engineering"
 baseurl: "" # leave blank for user site
 url: "https://anuragkhuntia.github.io"
 
-theme: minima   # built-in theme (simple + blog support)
+theme: chirpy   # built-in theme (simple + blog support)
 
 # Optional settings
 author:
