@@ -5,6 +5,7 @@ url: "https://anuragkhuntia.github.io"
 
 theme: chirpy   # built-in theme (simple + blog support)
 
+permalink: /blog/:title/
 # Optional settings
 author:
   name: "Anurag Khuntia"
