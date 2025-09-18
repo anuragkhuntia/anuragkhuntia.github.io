@@ -1,0 +1,89 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: #fafafa;
+  color: #333;
+}
+
+/* Header */
+header {
+  background: #222;
+  color: #fff;
+  padding: 2rem;
+  text-align: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+header p {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+/* Intro */
+.intro {
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Websites List */
+.websites-list {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.website-item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+.website-item:hover {
+  transform: translateY(-3px);
+}
+.website-item img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+.website-info {
+  flex: 1;
+}
+.website-info h3 {
+  margin: 0 0 0.5rem;
+}
+.website-info p {
+  margin: 0.3rem 0 1rem;
+  color: #555;
+}
+.website-info a {
+  text-decoration: none;
+  background: #c19a6b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+.website-info a:hover {
+  background: #a87945;
+}
+
+/* Footer */
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
