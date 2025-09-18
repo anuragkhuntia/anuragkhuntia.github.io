@@ -4,25 +4,53 @@
   <meta charset="UTF-8">
   <title>Contact | MMS Enterprises</title>
   <link rel="stylesheet" href="assets/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<header>
-  <h1>Contact Us</h1>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">MMS Enterprises</div>
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
     <a href="projects.html">Projects</a>
-    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="active">Contact</a>
   </nav>
 </header>
 
-<section class="content">
-  <h2>Reach Out</h2>
-  <p><strong>Managing Director:</strong> Prithviraj Naik (+91 8275436837)</p>
-  <p><strong>Managing Partner:</strong> Sahil Suryawanshi (+91 9158044193)</p>
-  <p><strong>Email:</strong> contact@mmsenterprises.com (update with official email)</p>
+<!-- Hero -->
+<section class="hero contact-hero">
+  <div class="hero-text">
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you. Get in touch today!</p>
+  </div>
+</section>
 
+<!-- Contact Info Cards -->
+<section class="contact-info">
+  <h2>Reach Out</h2>
+  <div class="card-container">
+    <div class="card">
+      <h3>📌 Managing Director</h3>
+      <p><strong>Prithviraj Naik</strong></p>
+      <p>📞 +91 8275436837</p>
+    </div>
+    <div class="card">
+      <h3>📌 Managing Partner</h3>
+      <p><strong>Sahil Suryawanshi</strong></p>
+      <p>📞 +91 9158044193</p>
+    </div>
+    <div class="card">
+      <h3>📧 Email</h3>
+      <p><a href="mailto:contact@mmsenterprises.com">contact@mmsenterprises.com</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form -->
+<section class="contact-form-section">
   <h2>Send Us a Message</h2>
   <form action="https://formspree.io/f/your-form-id" method="POST" class="contact-form">
     <label for="name">Name</label>
@@ -38,9 +66,11 @@
   </form>
 </section>
 
+<!-- Footer -->
 <footer>
-  <p>&copy; 2025 MMS Enterprises | Est. 2008</p>
+  <p>© 2025 MMS Enterprises | Govt. Approved Contractor & Supplier</p>
 </footer>
+
 </body>
 </html>
 
