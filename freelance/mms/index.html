@@ -2,41 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MMS Enterprises | Govt. Approved Contractor</title>
+  <title>MMS Enterprises | Construction & Fabrication</title>
   <link rel="stylesheet" href="assets/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <h1>MMS Enterprises</h1>
-      <p>Design to Perfection | Est. 2008</p>
-    </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <section class="hero">
-    <h2>Construction • Fabrication • Demolition</h2>
-    <p>Govt. Approved Contractor & Supplier since 2008</p>
-    <a href="services.html" class="btn">Explore Services</a>
-  </section>
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">MMS Enterprises</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <section class="intro">
-    <h2>Welcome to MMS Enterprises</h2>
+<!-- Hero -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <h1>Design to Perfection</h1>
+    <p>Construction • Fabrication • Demolition | Est. 2008</p>
+    <a href="#services" class="btn">Explore Services</a>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+  <div class="about-text">
+    <h2>About MMS Enterprises</h2>
     <p>
-      MMS Enterprises is a medium-scale civil and fabrication company delivering 
-      excellence in construction, repair & maintenance, electrical & mechanical works, 
-      carpentry, and building demolition.
+      MMS Enterprises is a medium-scale civil and fabrication company delivering excellence in
+      construction, repair & maintenance, electrical & mechanical works, carpentry, and building demolition.
+      Government Approved Contractor & Supplier since 2008.
     </p>
-  </section>
+  </div>
+  <div class="about-img">
+    <img src="assets/images/construction.jpg" alt="Construction work">
+  </div>
+</section>
 
-  <footer>
-    <p>&copy; 2025 MMS Enterprises | Est. 2008</p>
-  </footer>
+<!-- Services -->
+<section id="services" class="services">
+  <h2>Our Services</h2>
+  <div class="service-grid">
+    <div class="card">🏗️ Construction</div>
+    <div class="card">⚙️ Fabrication</div>
+    <div class="card">💥 Demolition</div>
+    <div class="card">🔌 Electrical & Mechanical</div>
+    <div class="card">🪚 Carpentry</div>
+    <div class="card">📦 Supply of Office & General Items</div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <p><strong>Managing Director:</strong> Prithviraj Naik (+91 8275436837)</p>
+  <p><strong>Managing Partner:</strong> Sahil Suryawanshi (+91 9158044193)</p>
+
+  <form action="https://formspree.io/f/your-id" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="_replyto" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 MMS Enterprises | Govt. Approved Contractor & Supplier</p>
+</footer>
+
 </body>
 </html>
 
