@@ -1,12 +1,48 @@
+# title: "Anurag Khuntia"
+# description: "Portfolio and Blog — DevOps | Cloud | Platform Engineering"
+# baseurl: "" # leave blank for user site
+# url: "https://anuragkhuntia.github.io"
+
+# theme: chirpy   # built-in theme (simple + blog support)
+
+# permalink: /blog/:title/
+# # Optional settings
+# author:
+#   name: "Anurag Khuntia"
+#   email: "anuragkhuntia03@gmail.com"
+
 title: "Anurag Khuntia"
-description: "Portfolio and Blog — DevOps | Cloud | Platform Engineering"
-baseurl: "" # leave blank for user site
+description: "Platform Engineer | DevOps | Cloud | Blog + Portfolio"
+baseurl: "" # for user site keep empty
 url: "https://anuragkhuntia.github.io"
 
-theme: chirpy   # built-in theme (simple + blog support)
+# Tell GitHub Pages to use Minimal Mistakes
+remote_theme: "mmistakes/minimal-mistakes"
 
-permalink: /blog/:title/
-# Optional settings
+# Plugins (required for GitHub Pages)
+plugins:
+  - jekyll-include-cache
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
 author:
-  name: "Anurag Khuntia"
-  email: "anuragkhuntia03@gmail.com"
+  name   : "Anurag Khuntia"
+  avatar : "/assets/images/profile.jpg"
+  bio    : "Platform Engineer with 3+ years in DevOps, Kubernetes, and Cloud."
+  location : "India"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/anuragkhuntia"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://linkedin.com/in/kanurag03"
+    - label: "Email"
+      icon: "fas fa-envelope"
+      url: "mailto:anuragkhuntia03@gmail.com"
+
+paginate: 5   # number of posts per page
+paginate_path: "/blog/page:num/"
+
