@@ -1,7 +1,8 @@
+/* General */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: 'Segoe UI', Roboto, sans-serif;
   margin: 0;
-  background: #fafafa;
+  background: #f4f6f9;
   color: #333;
   line-height: 1.6;
 }
@@ -11,7 +12,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #222;
+  background: #1a1f36;
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -32,7 +33,7 @@ body {
   color: #c19a6b;
 }
 
-/* Hero (generic for all pages) */
+/* Hero */
 .hero {
   background: url('assets/images/hero.jpg') center/cover no-repeat;
   color: #fff;
@@ -40,40 +41,51 @@ body {
   padding: 6rem 2rem;
 }
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 }
 .hero .btn {
   background: #c19a6b;
-  padding: 0.6rem 1.2rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 4px;
   color: white;
   text-decoration: none;
+  font-weight: bold;
 }
 .hero .btn:hover {
   background: #a87945;
 }
 
-/* About Page */
-.about {
-  display: flex;
-  flex-wrap: wrap;
+/* Section Titles */
+section {
   padding: 3rem 2rem;
-  gap: 2rem;
-  background: #fff;
 }
-.about-text {
-  flex: 1;
-}
-.about-img img {
-  max-width: 100%;
-  border-radius: 8px;
+section h2 {
+  text-align: center;
+  color: #1a1f36;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  border-bottom: 2px solid #c19a6b;
+  display: inline-block;
+  padding-bottom: 0.5rem;
 }
 
-/* Shared Cards (Leadership, Projects, Services) */
+/* About */
+.about {
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Cards */
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -83,7 +95,7 @@ body {
   background: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
   text-align: center;
 }
@@ -95,35 +107,32 @@ body {
   color: #c19a6b;
 }
 
-/* Services Section */
-.services {
-  background: #f9f9f9;
-  padding: 3rem 2rem;
-  text-align: center;
+/* Projects */
+.projects {
+  background: #fff;
 }
-.services h2 {
+.project-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
   margin-bottom: 1rem;
 }
 
-/* Projects Section */
-.projects {
-  padding: 3rem 2rem;
-  background: #fff;
-  text-align: center;
-}
-
-/* Contact Page */
+/* Contact */
 .contact-info {
   text-align: center;
   margin: 2rem auto;
 }
 .contact-form-section {
-  padding: 3rem 2rem;
-  text-align: center;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: auto;
 }
 .contact-form {
-  max-width: 500px;
-  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -136,23 +145,42 @@ body {
   font-size: 1rem;
 }
 .contact-form button {
-  background: #c19a6b;
+  background: #1a1f36;
   color: #fff;
   border: none;
   padding: 0.8rem;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
 }
 .contact-form button:hover {
-  background: #a87945;
+  background: #c19a6b;
 }
 
 /* Footer */
 footer {
-  background: #222;
+  background: #1a1f36;
   color: #fff;
   text-align: center;
   padding: 1rem;
   margin-top: 2rem;
+}
+
+.cta {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #1a1f36;
+  color: white;
+}
+.cta .btn {
+  background: #c19a6b;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.cta .btn:hover {
+  background: #a87945;
 }
 
