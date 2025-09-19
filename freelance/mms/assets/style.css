@@ -184,3 +184,33 @@ footer {
   background: #a87945;
 }
 
+/* Cover Banner */
+.cover-banner {
+  position: relative;
+  background: url('assets/images/cover.jpeg') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 6rem 2rem;
+  margin: 0;
+}
+.cover-banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45); /* dark overlay */
+}
+.cover-text {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: auto;
+}
+.cover-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+.cover-text p {
+  font-size: 1.2rem;
+}
+
