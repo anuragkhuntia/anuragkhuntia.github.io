@@ -183,32 +183,34 @@ footer {
 .cta .btn:hover {
   background: #a87945;
 }
-
-/* Cover Banner */
+/* Cover Banner with inline image */
 .cover-banner {
   position: relative;
-  background: url('images/cover.jpeg') center/cover no-repeat;
-  color: white;
   text-align: center;
-  padding: 6rem 2rem;
-  margin: 0;
+  color: white;
+}
+.cover-banner .cover-img {
+  width: 100%;
+  height: 500px;        /* adjust for your layout */
+  object-fit: cover;
+  display: block;
 }
 .cover-banner::before {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45); /* dark overlay */
+  background: rgba(0,0,0,0.45); /* overlay */
 }
 .cover-text {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
-  max-width: 800px;
-  margin: auto;
 }
 .cover-text h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  font-weight: bold;
 }
 .cover-text p {
   font-size: 1.2rem;
