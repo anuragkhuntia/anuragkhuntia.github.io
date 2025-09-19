@@ -2,122 +2,216 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MMS Enterprises | Construction & Fabrication</title>
-  <link rel="stylesheet" href="assets/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMS Enterprises | Govt. Approved Contractor & Supplier</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <!-- Navbar -->
-<header class="navbar">
-  <div class="logo">MMS Enterprises</div>
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="projects.html">Projects</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">MMS Enterprises</div>
+    <ul class="nav-menu">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#design" class="nav-link">Design</a></li>
+      <li><a href="#why-us" class="nav-link">Why Choose Us</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
 <!-- Hero -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Building with Excellence Since 2008</h1>
-    <p>Trusted partner for construction, fabrication, and demolition projects</p>
-    <a href="contact.html" class="btn">Get in Touch</a>
+<section id="home" class="hero">
+  <div class="hero-content">
+    <div class="hero-subtitle">Building Contractor & Construction Company</div>
+    <h1 class="hero-title">Excellence in Construction</h1>
+    <div class="hero-location">Hyderabad, India</div>
+    <p class="hero-description">
+      Govt. Approved Contractor delivering premium construction, fabrication, and demolition services since 2008.  
+      15+ years of trusted expertise with a focus on quality and timely delivery.
+    </p>
+    <a href="#contact" class="cta-button">Start a Project</a>
   </div>
 </section>
 
-<!-- About -->
-<section class="about">
-  <h2>About Us</h2>
-  <p>
-    MMS Enterprises is a Govt. Approved Contractor & Supplier established in 2008.  
-    With over 15 years of experience, we deliver <strong>construction, fabrication, 
-    electrical, carpentry, and demolition works</strong> for government and private clients.  
-    Our focus is on quality, safety, and timely project delivery.
-  </p>
-</section>
+<!-- What We Do -->
+<section id="services" class="services-section">
+  <div class="container">
+    <h2 class="section-title">What We Do</h2>
+    <div class="services-grid">
 
-<!-- Cover Section -->
-<section class="cover-banner">
-  <div class="cover-text">
-    <h2>Trusted by Clients Since 2008</h2>
-    <p>Delivering excellence in construction, fabrication, and demolition projects</p>
+      <div class="service-card">
+        <img src="assets/images/building.jpeg" alt="Civil Construction" class="service-image">
+        <div class="service-overlay">
+          <div class="service-content">
+            <i class="fas fa-building service-icon"></i>
+            <h3 class="service-title">Civil Construction</h3>
+            <p class="service-description">Complete building construction from foundation to finishing with modern techniques and quality materials.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="assets/images/interior.jpeg" alt="Interior Works" class="service-image">
+        <div class="service-overlay">
+          <div class="service-content">
+            <i class="fas fa-paint-roller service-icon"></i>
+            <h3 class="service-title">Interior Works</h3>
+            <p class="service-description">Premium interior solutions combining functionality with aesthetic excellence for residential & commercial spaces.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="assets/images/floor.jpeg" alt="Steel Fabrication" class="service-image">
+        <div class="service-overlay">
+          <div class="service-content">
+            <i class="fas fa-tools service-icon"></i>
+            <h3 class="service-title">Steel Fabrication</h3>
+            <p class="service-description">Precision steel fabrication and structural work for industrial and commercial projects.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- Services -->
-<section class="services">
-  <h2>Our Services</h2>
-  <div class="card-container">
-    <div class="card">
-      <h3>🏗️ Civil Construction</h3>
-      <p>Commercial, residential, and industrial building works with end-to-end execution.</p>
+<!-- Design Section -->
+<section id="design" class="design-section">
+  <div class="design-content">
+    <div></div>
+    <div class="design-text">
+      <div class="design-subtitle">Carefully Planned</div>
+      <h2 class="design-title">Design Excellence</h2>
+      <p class="design-description">
+        Your vision becomes reality through our meticulous planning and award-winning designs.  
+        We create spaces that are both functional and aesthetically stunning.
+      </p>
+      <a href="#projects" class="learn-more">View Projects <i class="fas fa-arrow-right"></i></a>
     </div>
-    <div class="card">
-      <h3>🔧 Fabrication</h3>
-      <p>Steel structures, welding, and precision fabrication for infrastructure projects.</p>
-    </div>
-    <div class="card">
-      <h3>⚡ Electrical & Carpentry</h3>
-      <p>Turnkey solutions for electrical systems and custom carpentry installations.</p>
-    </div>
-    <div class="card">
-      <h3>💣 Demolition</h3>
-      <p>Safe and systematic demolition of old structures for redevelopment projects.</p>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section id="why-us" class="why-choose-section">
+  <div class="container">
+    <div class="why-choose-content">
+      <div class="why-choose-image">
+        <img src="assets/images/demolition.jpeg" alt="Team at work">
+      </div>
+      <div class="why-choose-text">
+        <h2>Why Choose MMS Enterprises?</h2>
+        <ul class="feature-list">
+          <li>Govt. Approved Contractor</li>
+          <li>Experienced Engineers & Fabricators</li>
+          <li>15+ Years Industry Experience</li>
+          <li>Transparent Workflow & Quality Materials</li>
+          <li>On-time Project Completion</li>
+          <li>Trusted by Govt. & Corporate Clients</li>
+        </ul>
+        <a href="#contact" class="learn-more">Get a Quote <i class="fas fa-arrow-right"></i></a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Projects -->
-<section class="projects">
-  <h2>Recent Projects</h2>
-  <div class="card-container">
+<section id="projects" class="projects">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="card-container">
 
-    <div class="card">
-      <img src="assets/images/building.jpeg" class="project-img" alt="Commercial Building">
-      <h3>Commercial Building</h3>
-      <p>Multi-storey commercial complex with modern civil, electrical, and fabrication works.</p>
+      <div class="card">
+        <img src="assets/images/building.jpeg" alt="Commercial Complex">
+        <h3>🏗️ Commercial Complex</h3>
+        <p>Designed and executed multi-storey commercial spaces with advanced electrical & mechanical systems.</p>
+      </div>
+
+      <div class="card">
+        <img src="assets/images/interior.jpeg" alt="Office Interiors">
+        <h3>🏢 Office Interiors</h3>
+        <p>Complete redesign with carpentry, fabrication, and electrical upgrades for corporate offices.</p>
+      </div>
+
+      <div class="card">
+        <img src="assets/images/floor.jpeg" alt="Residential Housing">
+        <h3>🏠 Residential Housing</h3>
+        <p>Construction of residential homes with modern amenities and sustainable practices.</p>
+      </div>
+
+      <div class="card">
+        <img src="assets/images/demolition.jpeg" alt="Demolition Works">
+        <h3>🛠️ Demolition Works</h3>
+        <p>Executed large-scale demolition & site clearance projects with safety-first approach.</p>
+      </div>
+
     </div>
-
-    <div class="card">
-      <img src="assets/images/interior.jpeg" class="project-img" alt="Office Renovation">
-      <h3>Office Renovation</h3>
-      <p>Complete redesign with carpentry, fabrication, and electrical upgrades.</p>
-    </div>
-
-    <div class="card">
-      <img src="assets/images/floor.jpeg" class="project-img" alt="Residential Housing">
-      <h3>Residential Housing</h3>
-      <p>Residential housing projects with reliable construction and modern amenities.</p>
-    </div>
-
-    <div class="card">
-      <img src="assets/images/demolition.jpeg" class="project-img" alt="Government Works">
-      <h3>Government Works</h3>
-      <p>Infrastructure and demolition projects executed under government contracts.</p>
-    </div>
-
   </div>
-  <div style="text-align:center; margin-top:2rem;">
-    <a href="projects.html" class="btn">View All Projects</a>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in"><div class="stat-number" data-target="200">0</div><div class="stat-label">Projects Completed</div></div>
+      <div class="stat-item fade-in"><div class="stat-number" data-target="15">0</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat-item fade-in"><div class="stat-number" data-target="98">0</div><div class="stat-label">% Client Satisfaction</div></div>
+      <div class="stat-item fade-in"><div class="stat-number" data-target="25">0</div><div class="stat-label">Expert Team</div></div>
+    </div>
   </div>
 </section>
 
 <!-- Contact CTA -->
-<section class="cta">
-  <h2>Start Your Project With Us</h2>
-  <p>Contact MMS Enterprises today for professional construction & fabrication services.</p>
-  <a href="contact.html" class="btn">Contact Us</a>
+<section id="contact" class="contact-cta">
+  <div class="container">
+    <h2>Ready to Start Your Project?</h2>
+    <p>Contact MMS Enterprises today for professional construction and fabrication services.</p>
+    <a href="contact.html" class="contact-btn">Get in Touch</a>
+  </div>
 </section>
 
 <!-- Footer -->
-<footer>
-  <p>© 2025 MMS Enterprises | Govt. Approved Contractor & Supplier</p>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>MMS Enterprises</h3>
+        <p>Government approved contractor specializing in construction, fabrication, electrical, carpentry, and demolition works since 2008.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-phone"></i> +91 8275436837 (Prithviraj Naik)</p>
+        <p><i class="fas fa-phone"></i> +91 9158044193 (Sahil Suryawanshi)</p>
+        <p><i class="fas fa-envelope"></i> info@mmsenterprises.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 MMS Enterprises. All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
+<script src="assets/script.js"></script>
 </body>
 </html>
 
