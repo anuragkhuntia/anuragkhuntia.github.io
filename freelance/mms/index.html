@@ -12,82 +12,97 @@
 <header class="navbar">
   <div class="logo">MMS Enterprises</div>
   <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
   </nav>
 </header>
 
 <!-- Hero -->
-<section id="home" class="hero">
-  <div class="hero-content">
-    <h1>Design to Perfection</h1>
-    <p>Construction • Fabrication • Demolition | Est. 2008</p>
-    <a href="#services" class="btn">Explore Services</a>
+<section class="hero">
+  <div class="hero-text">
+    <h1>Building with Excellence Since 2008</h1>
+    <p>Trusted partner for construction, fabrication, and demolition projects</p>
+    <a href="contact.html" class="btn">Get in Touch</a>
   </div>
 </section>
 
 <!-- About -->
-<section id="about" class="about">
-  <div class="about-text">
-    <h2>About MMS Enterprises</h2>
-    <p>
-      MMS Enterprises is a medium-scale civil and fabrication company delivering excellence in
-      construction, repair & maintenance, electrical & mechanical works, carpentry, and building demolition.
-      Government Approved Contractor & Supplier since 2008.
-    </p>
-  </div>
-  <div class="about-img">
-    <img src="assets/images/construction.jpg" alt="Construction work">
-  </div>
+<section class="about">
+  <h2>About Us</h2>
+  <p>
+    MMS Enterprises is a Govt. Approved Contractor & Supplier established in 2008.  
+    With over 15 years of experience, we deliver <strong>construction, fabrication, 
+    electrical, carpentry, and demolition works</strong> for government and private clients.  
+    Our focus is on quality, safety, and timely project delivery.
+  </p>
 </section>
 
 <!-- Services -->
-<section id="services" class="services">
+<section class="services">
   <h2>Our Services</h2>
-  <div class="service-grid">
+  <div class="card-container">
     <div class="card">
-      <h3>🏗️ Construction</h3>
-      <p>From small-scale civil work to medium-scale projects with reliable execution.</p>
+      <h3>🏗️ Civil Construction</h3>
+      <p>Commercial, residential, and industrial building works with end-to-end execution.</p>
     </div>
     <div class="card">
-      <h3>⚙️ Fabrication</h3>
-      <p>High-quality metal and structural fabrication solutions.</p>
+      <h3>🔧 Fabrication</h3>
+      <p>Steel structures, welding, and precision fabrication for infrastructure projects.</p>
     </div>
     <div class="card">
-      <h3>💥 Demolition</h3>
-      <p>Safe and efficient building demolition by experts.</p>
+      <h3>⚡ Electrical & Carpentry</h3>
+      <p>Turnkey solutions for electrical systems and custom carpentry installations.</p>
     </div>
     <div class="card">
-      <h3>🔌 Electrical & Mechanical</h3>
-      <p>Installation and maintenance of electrical & mechanical systems.</p>
-    </div>
-    <div class="card">
-      <h3>🪚 Carpentry</h3>
-      <p>Durable and functional carpentry for civil and commercial needs.</p>
-    </div>
-    <div class="card">
-      <h3>📦 Supply</h3>
-      <p>Office stationery, electrical & general items supply at scale.</p>
+      <h3>💣 Demolition</h3>
+      <p>Safe and systematic demolition of old structures for redevelopment projects.</p>
     </div>
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <div class="contact-info">
-    <p><strong>Managing Director:</strong> Prithviraj Naik (+91 8275436837)</p>
-    <p><strong>Managing Partner:</strong> Sahil Suryawanshi (+91 9158044193)</p>
-  </div>
+<!-- Projects -->
+<section class="projects">
+  <h2>Recent Projects</h2>
+  <div class="card-container">
 
-  <form action="https://formspree.io/f/your-id" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="_replyto" placeholder="Your Email" required>
-    <textarea name="message" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
+    <div class="card">
+      <img src="assets/images/building.jpeg" class="project-img" alt="Commercial Building">
+      <h3>Commercial Building</h3>
+      <p>Multi-storey commercial complex with modern civil, electrical, and fabrication works.</p>
+    </div>
+
+    <div class="card">
+      <img src="assets/images/interior.jpeg" class="project-img" alt="Office Renovation">
+      <h3>Office Renovation</h3>
+      <p>Complete redesign with carpentry, fabrication, and electrical upgrades.</p>
+    </div>
+
+    <div class="card">
+      <img src="assets/images/floor.jpeg" class="project-img" alt="Residential Housing">
+      <h3>Residential Housing</h3>
+      <p>Residential housing projects with reliable construction and modern amenities.</p>
+    </div>
+
+    <div class="card">
+      <img src="assets/images/demolition.jpeg" class="project-img" alt="Government Works">
+      <h3>Government Works</h3>
+      <p>Infrastructure and demolition projects executed under government contracts.</p>
+    </div>
+
+  </div>
+  <div style="text-align:center; margin-top:2rem;">
+    <a href="projects.html" class="btn">View All Projects</a>
+  </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="cta">
+  <h2>Start Your Project With Us</h2>
+  <p>Contact MMS Enterprises today for professional construction & fabrication services.</p>
+  <a href="contact.html" class="btn">Contact Us</a>
 </section>
 
 <!-- Footer -->
