@@ -1,25 +1,13 @@
-# title: "Anurag Khuntia"
-# description: "Portfolio and Blog — DevOps | Cloud | Platform Engineering"
-# baseurl: "" # leave blank for user site
-# url: "https://anuragkhuntia.github.io"
-
-# theme: chirpy   # built-in theme (simple + blog support)
-
-# permalink: /blog/:title/
-# # Optional settings
-# author:
-#   name: "Anurag Khuntia"
-#   email: "anuragkhuntia03@gmail.com"
-
+# Site Settings
 title: "Anurag Khuntia"
 description: "Platform Engineer | DevOps | Cloud | Blog + Portfolio"
-baseurl: "" # for user site keep empty
+baseurl: "" # leave empty for user site
 url: "https://anuragkhuntia.github.io"
 
-# Tell GitHub Pages to use Minimal Mistakes
+# Use Minimal Mistakes as remote theme
 remote_theme: "mmistakes/minimal-mistakes"
 
-# Plugins (required for GitHub Pages)
+# Plugins required by GitHub Pages and theme
 plugins:
   - jekyll-include-cache
   - jekyll-paginate
@@ -27,11 +15,12 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
 
+# Author settings
 author:
-  name   : "Anurag Khuntia"
-  avatar : "/assets/images/profile.jpg"
-  bio    : "Platform Engineer with 3+ years in DevOps, Kubernetes, and Cloud."
-  location : "India"
+  name: "Anurag Khuntia"
+  avatar: "/assets/images/profile.jpg"
+  bio: "Platform Engineer with 3+ years in DevOps, Kubernetes, and Cloud."
+  location: "India"
   links:
     - label: "GitHub"
       icon: "fab fa-github"
@@ -43,6 +32,26 @@ author:
       icon: "fas fa-envelope"
       url: "mailto:anuragkhuntia03@gmail.com"
 
-paginate: 5   # number of posts per page
+# Pagination for blog index
+paginate: 5
 paginate_path: "/blog/page:num/"
+
+# Syntax highlighting with Rouge
+highlighter: rouge
+
+# Optional typography style from Minimal Mistakes
+typography_style: chesterish
+
+# Fonts — override default Minimal Mistakes fonts for professional look
+font_family_sans: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+font_family_serif: "Merriweather, Georgia, 'Times New Roman', Times, serif"
+
+# Sass settings for compressed output (optional custom scss)
+sass:
+  style: compressed
+
+# Custom CSS file loading
+assets:
+  css:
+    - /assets/css/custom.scss
 
