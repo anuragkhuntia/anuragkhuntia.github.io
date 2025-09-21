@@ -1,4 +1,30 @@
 # **Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD**
+---
+title: "Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD"
+layout: single
+author: "Anurag Khuntia"
+date: 2025-09-21
+categories: 
+  - Kubernetes
+  - Networking
+  - BGP
+  - ECMP
+  - BFD
+tags: 
+  - kubernetes
+  - networking
+  - bgp
+  - ecmp
+  - bfd
+  - clos
+header:
+  overlay_image: /assets/images/kubernets_onprem_fabric.png
+  overlay_filter: 0.3
+  caption: "Clos fabric with Leaf, Spine, Border Leaf, and Super Spine"
+toc: true
+toc_label: "Table of Contents"
+toc_icon: "list"
+---
 
 ## **Introduction**
 
