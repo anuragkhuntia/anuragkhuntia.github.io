@@ -1,13 +1,13 @@
-excerpt: "Designing multi-datacenter Kubernetes networking using BGP, ECMP, BFD, and Clos fabrics."
-read_time: true
-related: true
-share: true
-comments: false
 ---
 title: "Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD"
+excerpt: "Designing multi-datacenter Kubernetes networking using BGP, ECMP, BFD, and Clos fabrics."
 layout: single
 author: "Anurag Khuntia"
 date: 2025-09-21
+read_time: true
+share: true
+comments: false
+related: true
 categories: 
   - Kubernetes
   - Networking
@@ -32,173 +32,151 @@ toc_icon: "list"
 
 ## Introduction
 
-Kubernetes powers mission-critical applications, many of which run in
-on-premises datacenters spanning multiple sites. Unlike public clouds
-that abstract multi-region networking, on-premises Kubernetes
-deployments require **native, scalable underlay fabrics** to route Pod
-and Service IPs efficiently.
+Kubernetes powers mission-critical applications, many of which run in on-premises datacenters spanning multiple sites. 
 
-While cloud providers hide networking complexity behind managed
-services, on-premises environments expose the full challenge: designing
-**resilient, scalable, and observable network fabrics** that allow Pods
-and Services to be directly reachable, with predictable failover
-behavior.
+Unlike public clouds that abstract multi-region networking, on-premises Kubernetes deployments require **native, scalable underlay fabrics** to route Pod and Service IPs efficiently.
+
+Cloud providers simplify networking using managed services. However, in on-prem environments, architects must build **resilient, scalable, and observable network fabrics** that ensure Pod and Service reachability with fast, predictable failover.
+
+---
 
 ## Core Networking Challenges
 
-On-premises Kubernetes networks face unique challenges:
+On-prem Kubernetes networking introduces a unique set of challenges:
 
-1.  **Scalable Routing:** As the number of nodes, Pods, and Services grows, traditional L2 overlays and static routes cannot scale efficiently.
+1. **Scalable Routing:** Large clusters quickly outgrow static routes and L2 overlays.
+2. **Fast Failover:** Without sub-second rerouting, workloads may become unreachable on failure.
+3. **Multi-Datacenter Reachability:** Routing consistency across geographically separate sites is critical.
+4. **Operational Simplicity:** Managing IPs for Clos topologies can introduce significant complexity.
 
-2.  **Fast Failover:** Links or nodes can fail. Without sub-second detection and rerouting, workloads may become unreachable.
-
-3.  **Multi-Datacenter Connectivity:** Workloads often span multiple datacenters, requiring consistent routing policies and service reachability across sites.
-
-4.  **Operational Simplicity:** Large IP management overhead can complicate configuration, especially for point-to-point links in Clos fabrics.
+---
 
 ## Clos Fabrics and Dynamic Routing
 
-A **Clos network** (spine-leaf architecture) forms the backbone of
-scalable, predictable datacenter networking:
+A **Clos (leaf-spine)** network provides the backbone for scalable, fault-tolerant datacenter networking.
 
 ### Leaf Switches
-
-- Connect directly to servers, including Kubernetes nodes.
-- Handle BGP peering with upstream layers or external networks.
-- Forward traffic to spine switches for inter-leaf communication.
+- Connect directly to Kubernetes nodes.
+- Peer with spines or border devices using BGP.
+- Serve as first-hop routers for traffic entering the fabric.
 
 ### Spine Switches
-
-- Interconnect leaf switches, creating a high-speed backbone.
-- Provide multiple equal-cost paths between leaves, enabling **ECMP** (Equal-Cost Multi-Path).
-- Ensure low latency, high bandwidth, and redundancy within the datacenter fabric.
+- Interconnect leaf switches.
+- Provide multiple equal-cost paths (ECMP).
+- Support redundancy and high bandwidth.
 
 ### Border Leaf Switches
+- Bridge internal fabrics with WAN/Internet/DCI.
+- Handle egress/ingress and inter-datacenter communication.
 
-- Act as the datacenter's gateway to external networks (WAN, Internet, or other datacenters).
-- Peer with edge routers or upstream providers using protocols like BGP.
-- Aggregate traffic from the leaf-spine fabric for efficient external routing.
+### Super Spines (Optional)
+- Used in hyperscale environments.
+- Connect multiple spine layers for additional ECMP and scale.
 
-### Super Spine (Optional for Large-Scale Fabrics)
-
-- Sits above the spine layer in very large datacenters to scale horizontally.
-- Connects multiple spine blocks, reducing oversubscription and latency.
-- Provides additional ECMP paths, enabling multi-pod or multi-fabric connectivity for massive deployments.
+---
 
 ### ECMP (Equal-Cost Multi-Path)
 
-- Balances traffic across multiple spine-leaf paths.
-- Reduces congestion, provides redundancy, and optimizes bandwidth utilization.
+ECMP spreads traffic across multiple paths of equal cost:
+- Enables **high availability**.
+- Improves **bandwidth utilization**.
+- Simplifies **failure recovery**.
 
-Dynamic routing protocols, particularly **BGP**, enable nodes and
-services to advertise their presence directly into the fabric.
+---
 
-## IPv6 BGP Unnumbered: Scaling Control Planes
+## IPv6 BGP Unnumbered: Scaling the Control Plane
 
-Traditional IPv4 BGP requires dedicated subnets for each point-to-point
-link. In large fabrics, this results in massive subnet consumption and
-operational overhead.
+Traditional IPv4 BGP requires point-to-point subnets, which doesn't scale well.
 
-**IPv6 BGP Unnumbered** solves this problem:
+### IPv6 BGP Unnumbered Benefits:
 
-- Uses **link-local IPv6 addresses** for BGP session establishment.
-- No need to allocate /31 or /30 subnets per link.
-- IPv4 routes for Pods and Services are still exchanged.
-- Simplifies automation and reduces errors.
+- Uses **link-local IPv6 addresses** to establish BGP sessions.
+- Eliminates the need for /30 or /31 subnets.
+- IPv4 routes are still advertised normally.
+- Reduces IP planning and automation complexity.
 
-**Key takeaway:** IPv6 handles the control plane; IPv4 remains for workloads.
+**Key Insight:** Use IPv6 for the control plane, IPv4 for the data plane.
 
-### Why FRR on Kubernetes Nodes?
+---
 
-Running **FRR (Free Range Routing)** on nodes converts each Kubernetes
-worker into a mini-router:
+## Running FRR on Kubernetes Nodes
 
-- Advertises **Pod CIDRs** and **Service VIPs** directly to the fabric.
-- Supports **BFD** for rapid failure detection (<1 second).
-- Uses **loopbacks** as stable next-hops for ECMP.
-- Avoids overlay encapsulation overhead, enabling **native L3 routing** visibility.
+Deploying **FRR (Free Range Routing)** on Kubernetes nodes turns them into routers:
 
-This architecture ensures that **all workloads are first-class citizens** on the network, visible to switches and routers for direct routing, allowing the datacenter fabric to see Pods and Services as **native IP prefixes**, not just encapsulated traffic.
+- Advertises **Pod CIDRs** and **Service VIPs** directly into the fabric.
+- Enables **BFD** for fast route withdrawal (<1s).
+- Uses **loopback addresses** for ECMP stability.
+- Avoids encapsulation; traffic is routed natively via L3.
 
-## Addressing Model
+This model makes workloads **visible and routable** throughout the Clos fabric.
 
-| Segment | Example    | Purpose                        |
-|---------|------------|-------------------------------|
-| Node    | 10.10.19.x | Loopback/router ID for nodes   |
-| Pod     | 10.10.20.x | Dynamic Pod IPs                |
-| Service | 10.10.21.x | ClusterIP or LoadBalancer VIPs |
+---
 
-- **10.10.19.x → Node Segment**
+## IP Addressing Model
 
-  - Each Kubernetes node (baremetal or VM) has an IP from this range.
-  - Used as unique loopback IP and **BGP router-IDs**.
-  - Stable even if physical interfaces change.
-  - Example: 10.10.19.10 for Node1.
+| Segment | Example        | Purpose                          |
+|---------|----------------|----------------------------------|
+| Node    | 10.10.19.x     | Loopback IP for BGP router ID    |
+| Pod     | 10.10.20.x     | Pod IP range (via Pod CIDRs)     |
+| Service | 10.10.21.x     | VIPs (ClusterIP or LB services)  |
 
-- **10.10.20.x → Pod Segment**
+### Example:
+- Node loopback: `10.10.19.10`
+- Pod IP: `10.10.20.5`
+- Service VIP: `10.10.21.40/32`
 
-  - Pods receive IPs per-node allocated as Pod CIDRs.
-  - Example: 10.10.20.5 for a Pod on Node1.
+This segmentation separates infrastructure and workload IPs for cleaner routing policies.
 
-- **10.10.21.x → Service Segment**
+---
 
-  - Virtual IPs (ClusterIP or LoadBalancer) advertised as /32 routes.
-  - Example: 10.10.21.40/32 for a database service reachable across fabrics.
+## Sample FRR Configuration
 
+```bash
+frr version 8.1
+frr defaults traditional
+hostname cp1
+log syslog informational
+no ipv6 forwarding
+service integrated-vtysh-config
 
-This segmentation separates **nodes, workloads, and services**, making
-routing policies easier to design and scale.
-
-### Sample FRR Configuration
-
-**Sample FRR Configuration**
-
-frr version 8.1\
-frr defaults traditional\
-hostname cp1\
-log syslog informational\
-no ipv6 forwarding\
-service integrated-vtysh-config\
-\
-interface eno5\
-ipv6 nd ra-interval 6\
-no ipv6 nd suppress-ra\
-exit\
-\
-interface eno7\
-ipv6 nd ra-interval 6\
-no ipv6 nd suppress-ra\
-exit\
-\
-interface lo\
-ip address 10.10.19.10/32 \# Node loopback (router-id)\
-ip address 10.10.21.66/32 \# Service IP advertised via loopback\
-ip address 10.10.21.227/32 \# Additional service IPs on loopback\
-exit\
-\
-router bgp 65496\
-bgp router-id 10.10.19.10\
-bgp bestpath as-path multipath-relax\
-\
-neighbor TOR peer-group\
-neighbor TOR remote-as internal\
-neighbor TOR bfd\
-neighbor TOR timers 1 3\
-\
-neighbor eno5 interface peer-group TOR\
-neighbor eno7 interface peer-group TOR\
-\
-bgp fast-convergence\
-\
-address-family ipv4 unicast\
-network 10.30.19.6/32\
-network 10.30.21.66/32\
-network 10.30.21.227/32\
-redistribute kernel\
-redistribute connected\
-exit-address-family\
+interface eno5
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
 exit
 
+interface eno7
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
+exit
+
+interface lo
+ ip address 10.10.19.10/32     # Node loopback
+ ip address 10.10.21.66/32     # Service VIP
+ ip address 10.10.21.227/32    # Additional VIP
+exit
+
+router bgp 65496
+ bgp router-id 10.10.19.10
+ bgp bestpath as-path multipath-relax
+
+ neighbor TOR peer-group
+ neighbor TOR remote-as internal
+ neighbor TOR bfd
+ neighbor TOR timers 1 3
+
+ neighbor eno5 interface peer-group TOR
+ neighbor eno7 interface peer-group TOR
+
+ bgp fast-convergence
+
+ address-family ipv4 unicast
+  network 10.10.19.10/32
+  network 10.10.21.66/32
+  network 10.10.21.227/32
+  redistribute kernel
+  redistribute connected
+ exit-address-family
+exit
 
 ## Fabrics Overview
 
@@ -220,7 +198,7 @@ exit
 - Manages north-south ingress/egress.
 - Applies policy and security before external exposure.
 - Connects to the internet, WANs, or partner clouds.
-
+```
 ![Clos fabric with Leaf, Spine, Border Leaf, and Super Spine](/assets/images/kubernets_onprem_fabric.png){width="6.5in" height="3.5277in"}
 
 ## BGP, ECMP, and BFD in Action
