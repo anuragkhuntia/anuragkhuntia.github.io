@@ -26,7 +26,7 @@ tags:
 header:
   overlay_image: /assets/images/datacenter-k8s.jpeg
   overlay_filter: 0.3
-  caption: "Clos fabric with Leaf, Spine, Border Leaf, and Super Spine"
+  #caption: "Clos fabric with Leaf, Spine, Border Leaf, and Super Spine"
 toc: true
 toc_label: "Table of Contents"
 toc_icon: "list"
