@@ -7,6 +7,8 @@ author: "Anurag Khuntia"
 toc: true
 toc_label: "Table of Contents"
 toc_sticky: true
+header:
+  image: /assets/images/datacenter-k8s.jpeg
 categories: 
   - blog
   - Kubernetes

@@ -2,14 +2,8 @@
 layout: default
 ---
 
-{% include navbar.html %}
-
-<article class="page layout--single">
-  <div class="page__inner-wrap">
-    {% if site.breadcrumbs %}
-      {% include breadcrumbs.html %}
-    {% endif %}
-
+<div class="post-container">
+  <main class="post-main">
     {% if page.header.image %}
       <div class="post-header-image">
         <img src="{{ page.header.image | relative_url }}" alt="{{ page.header.image_alt | default: site.title }}">
@@ -19,20 +13,25 @@ layout: default
       </div>
     {% endif %}
 
-    <div class="page__content">
-      <div class="post-main">
-        {{ content }}
-      </div>
-
-      {% if page.toc %}
-      <aside class="post-toc">
-        <div class="toc">
-          <h3>Table of Contents</h3>
-          {{ page.toc }}
-        </div>
-      </aside>
+    <article class="post-article">
+      {% if site.breadcrumbs %}
+        {% include breadcrumbs.html %}
       {% endif %}
-    </div>
-  </div>
-</article>
+
+      <h1 class="post-title">{{ page.title }}</h1>
+      {% if page.excerpt %}
+        <p class="post-excerpt">{{ page.excerpt }}</p>
+      {% endif %}
+
+      {{ content }}
+    </article>
+  </main>
+
+  {% if page.toc %}
+    <aside class="post-toc">
+      <h3>{{ page.toc_label | default: "Table of Contents" }}</h3>
+      {% include toc.html html=content %}
+    </aside>
+  {% endif %}
+</div>
 
