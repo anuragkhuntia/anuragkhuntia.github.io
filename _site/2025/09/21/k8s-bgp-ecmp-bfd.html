@@ -1,0 +1,802 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD - Anurag Khuntia</title>
+<meta name="description" content="Exploring scalable Kubernetes networking for multi-site on-prem clusters.">
+
+
+  <meta name="author" content="Anurag Khuntia">
+  
+  <meta property="article:author" content="Anurag Khuntia">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Anurag Khuntia">
+<meta property="og:title" content="Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD">
+<meta property="og:url" content="http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd.html">
+
+
+  <meta property="og:description" content="Exploring scalable Kubernetes networking for multi-site on-prem clusters.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/datacenter-k8s.jpeg">
+
+
+
+
+
+  <meta property="article:published_time" content="2025-09-21T00:00:00+05:30">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd.html">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Anurag Khuntia Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Anurag Khuntia
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/"
+                
+                
+              >Home</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/blog/"
+                
+                
+              >Blog</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero"
+  style=" background-image: url('');"
+>
+  
+    <img src="/assets/images/datacenter-k8s.jpeg" alt="Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD" class="page__hero-image">
+  
+  
+    <span class="page__hero-caption">Kubernetes Networking — BGP, ECMP, and BFD
+</span>
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/2025" itemprop="item"><span itemprop="name">2025</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/09" itemprop="item"><span itemprop="name">09</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/21" itemprop="item"><span itemprop="name">21</span></a>
+          <meta itemprop="position" content="4" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="Anurag Khuntia" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Anurag Khuntia</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Networking + Kubernetes enthusiast</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">India</span>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      <nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      
+      
+        <li>
+          
+            <a href="/"><span class="nav__sub-title">Home</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/blog/"><span class="nav__sub-title">Blog</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/about/"><span class="nav__sub-title">About</span></a>
+          
+
+          
+        </li>
+      
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD">
+    <meta itemprop="description" content="Exploring scalable Kubernetes networking for multi-site on-prem clusters.">
+    <meta itemprop="datePublished" content="2025-09-21T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd.html" itemprop="url">Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#core-networking-challenges">Core Networking Challenges</a></li><li><a href="#clos-fabrics-and-dynamic-routing">Clos Fabrics and Dynamic Routing</a><ul><li><a href="#leaf-switches">Leaf Switches</a></li><li><a href="#spine-switches">Spine Switches</a></li><li><a href="#border-leaf-switches">Border Leaf Switches</a></li><li><a href="#super-spines-optional">Super Spines (Optional)</a></li><li><a href="#ecmp-equal-cost-multi-path">ECMP (Equal-Cost Multi-Path)</a></li></ul></li><li><a href="#ipv6-bgp-unnumbered-scaling-the-control-plane">IPv6 BGP Unnumbered: Scaling the Control Plane</a><ul><li><a href="#ipv6-bgp-unnumbered-benefits">IPv6 BGP Unnumbered Benefits:</a></li></ul></li><li><a href="#running-frr-on-kubernetes-nodes">Running FRR on Kubernetes Nodes</a></li><li><a href="#ip-addressing-model">IP Addressing Model</a><ul><li><a href="#example">Example:</a></li></ul></li><li><a href="#sample-frr-configuration">Sample FRR Configuration</a></li><li><a href="#fabrics-overview">Fabrics Overview</a></li><li><a href="#bgp-ecmp-and-bfd-in-action">BGP, ECMP, and BFD in Action</a><ul><li><a href="#multi-bgp-neighbor-setup">Multi-BGP Neighbor Setup</a></li><li><a href="#service-advertisement-flow">Service Advertisement Flow</a></li><li><a href="#why-service-ips-are-added-to-loopback">Why Service IPs Are Added to Loopback</a></li><li><a href="#why-pod-ips-are-advertised-automatically">Why Pod IPs Are Advertised Automatically</a></li></ul></li><li><a href="#extended-theory">Extended Theory</a><ul><li><a href="#bgp-benefits-in-k8s">BGP Benefits in K8s</a></li><li><a href="#ecmp-considerations">ECMP Considerations</a></li><li><a href="#bfd-insights">BFD Insights</a></li></ul></li><li><a href="#best-practices">Best Practices</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>Kubernetes powers mission-critical applications, many of which run in on-premises datacenters spanning multiple sites.</p>
+
+<p>Unlike public clouds that abstract multi-region networking, on-premises Kubernetes deployments require <strong>native, scalable underlay fabrics</strong> to route Pod and Service IPs efficiently.</p>
+
+<p>Cloud providers simplify networking using managed services. However, in on-prem environments, architects must build <strong>resilient, scalable, and observable network fabrics</strong> that ensure Pod and Service reachability with fast, predictable failover.</p>
+
+<hr />
+
+<h2 id="core-networking-challenges">Core Networking Challenges</h2>
+
+<p>On-prem Kubernetes networking introduces a unique set of challenges:</p>
+
+<ol>
+  <li><strong>Scalable Routing:</strong> Large clusters quickly outgrow static routes and L2 overlays.</li>
+  <li><strong>Fast Failover:</strong> Without sub-second rerouting, workloads may become unreachable on failure.</li>
+  <li><strong>Multi-Datacenter Reachability:</strong> Routing consistency across geographically separate sites is critical.</li>
+  <li><strong>Operational Simplicity:</strong> Managing IPs for Clos topologies can introduce significant complexity.</li>
+</ol>
+
+<hr />
+
+<h2 id="clos-fabrics-and-dynamic-routing">Clos Fabrics and Dynamic Routing</h2>
+
+<p>A <strong>Clos (leaf-spine)</strong> network provides the backbone for scalable, fault-tolerant datacenter networking.</p>
+
+<h3 id="leaf-switches">Leaf Switches</h3>
+<ul>
+  <li>Connect directly to Kubernetes nodes.</li>
+  <li>Peer with spines or border devices using BGP.</li>
+  <li>Serve as first-hop routers for traffic entering the fabric.</li>
+</ul>
+
+<h3 id="spine-switches">Spine Switches</h3>
+<ul>
+  <li>Interconnect leaf switches.</li>
+  <li>Provide multiple equal-cost paths (ECMP).</li>
+  <li>Support redundancy and high bandwidth.</li>
+</ul>
+
+<h3 id="border-leaf-switches">Border Leaf Switches</h3>
+<ul>
+  <li>Bridge internal fabrics with WAN/Internet/DCI.</li>
+  <li>Handle egress/ingress and inter-datacenter communication.</li>
+</ul>
+
+<h3 id="super-spines-optional">Super Spines (Optional)</h3>
+<ul>
+  <li>Used in hyperscale environments.</li>
+  <li>Connect multiple spine layers for additional ECMP and scale.</li>
+</ul>
+
+<hr />
+
+<h3 id="ecmp-equal-cost-multi-path">ECMP (Equal-Cost Multi-Path)</h3>
+
+<p>ECMP spreads traffic across multiple paths of equal cost:</p>
+<ul>
+  <li>Enables <strong>high availability</strong>.</li>
+  <li>Improves <strong>bandwidth utilization</strong>.</li>
+  <li>Simplifies <strong>failure recovery</strong>.</li>
+</ul>
+
+<hr />
+
+<h2 id="ipv6-bgp-unnumbered-scaling-the-control-plane">IPv6 BGP Unnumbered: Scaling the Control Plane</h2>
+
+<p>Traditional IPv4 BGP requires point-to-point subnets, which doesn’t scale well.</p>
+
+<h3 id="ipv6-bgp-unnumbered-benefits">IPv6 BGP Unnumbered Benefits:</h3>
+
+<ul>
+  <li>Uses <strong>link-local IPv6 addresses</strong> to establish BGP sessions.</li>
+  <li>Eliminates the need for /30 or /31 subnets.</li>
+  <li>IPv4 routes are still advertised normally.</li>
+  <li>Reduces IP planning and automation complexity.</li>
+</ul>
+
+<p><strong>Key Insight:</strong> Use IPv6 for the control plane, IPv4 for the data plane.</p>
+
+<hr />
+
+<h2 id="running-frr-on-kubernetes-nodes">Running FRR on Kubernetes Nodes</h2>
+
+<p>Deploying <strong>FRR (Free Range Routing)</strong> on Kubernetes nodes turns them into routers:</p>
+
+<ul>
+  <li>Advertises <strong>Pod CIDRs</strong> and <strong>Service VIPs</strong> directly into the fabric.</li>
+  <li>Enables <strong>BFD</strong> for fast route withdrawal (&lt;1s).</li>
+  <li>Uses <strong>loopback addresses</strong> for ECMP stability.</li>
+  <li>Avoids encapsulation; traffic is routed natively via L3.</li>
+</ul>
+
+<p>This model makes workloads <strong>visible and routable</strong> throughout the Clos fabric.</p>
+
+<hr />
+
+<h2 id="ip-addressing-model">IP Addressing Model</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Segment</th>
+      <th>Example</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Node</td>
+      <td>10.10.19.x</td>
+      <td>Loopback IP for BGP router ID</td>
+    </tr>
+    <tr>
+      <td>Pod</td>
+      <td>10.10.20.x</td>
+      <td>Pod IP range (via Pod CIDRs)</td>
+    </tr>
+    <tr>
+      <td>Service</td>
+      <td>10.10.21.x</td>
+      <td>VIPs (ClusterIP or LB services)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="example">Example:</h3>
+<ul>
+  <li>Node loopback: <code class="language-plaintext highlighter-rouge">10.10.19.10</code></li>
+  <li>Pod IP: <code class="language-plaintext highlighter-rouge">10.10.20.5</code></li>
+  <li>Service VIP: <code class="language-plaintext highlighter-rouge">10.10.21.40/32</code></li>
+</ul>
+
+<p>This segmentation separates infrastructure and workload IPs for cleaner routing policies.</p>
+
+<hr />
+
+<h2 id="sample-frr-configuration">Sample FRR Configuration</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>frr version 8.1
+frr defaults traditional
+<span class="nb">hostname </span>cp1
+log syslog informational
+no ipv6 forwarding
+service integrated-vtysh-config
+
+interface eno5
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
+<span class="nb">exit
+
+</span>interface eno7
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
+<span class="nb">exit
+
+</span>interface lo
+ ip address 10.10.19.10/32     <span class="c"># Node loopback</span>
+ ip address 10.10.21.66/32     <span class="c"># Service VIP</span>
+ ip address 10.10.21.227/32    <span class="c"># Additional VIP</span>
+<span class="nb">exit
+
+</span>router bgp 65496
+ bgp router-id 10.10.19.10
+ bgp bestpath as-path multipath-relax
+
+ neighbor TOR peer-group
+ neighbor TOR remote-as internal
+ neighbor TOR bfd
+ neighbor TOR timers 1 3
+
+ neighbor eno5 interface peer-group TOR
+ neighbor eno7 interface peer-group TOR
+
+ bgp fast-convergence
+
+ address-family ipv4 unicast
+  network 10.10.19.10/32
+  network 10.10.21.66/32
+  network 10.10.21.227/32
+  redistribute kernel
+  redistribute connected
+ exit-address-family
+<span class="nb">exit</span>
+
+</code></pre></div></div>
+
+<h2 id="fabrics-overview">Fabrics Overview</h2>
+
+<p><strong>App Fabrics</strong></p>
+
+<ul>
+  <li>Kubernetes clusters in individual datacenters.</li>
+  <li>Node, Pod, Service routes advertised into Clos fabric.</li>
+  <li>ECMP provides multi-path load balance.</li>
+  <li>BFD triggers fast failover on node/link faults.</li>
+</ul>
+
+<p><strong>DCI Fabric</strong></p>
+
+<ul>
+  <li>Connects multiple App Fabrics geographically.</li>
+  <li>Propagates routes between datacenters.</li>
+  <li>Enables cross-site service reachability and workload scaling.</li>
+</ul>
+
+<p><strong>Edge Fabric</strong></p>
+
+<ul>
+  <li>Manages north-south ingress/egress.</li>
+  <li>Applies policy and security before external exposure.</li>
+  <li>Connects to the internet, WANs, or partner clouds.</li>
+</ul>
+
+<p><img src="/assets/images/kubernets_onprem_fabric.png" alt="Clos fabric with Leaf, Spine, Border Leaf, and Super Spine" /></p>
+
+<h2 id="bgp-ecmp-and-bfd-in-action">BGP, ECMP, and BFD in Action</h2>
+
+<h3 id="multi-bgp-neighbor-setup">Multi-BGP Neighbor Setup</h3>
+
+<ul>
+  <li>Each node peers with two upstream leaf switches.</li>
+  <li>ECMP allows traffic to utilize both uplinks efficiently.</li>
+  <li><strong>BFD</strong> ensures failures are detected sub-second, allowing FRR to withdraw routes immediately.</li>
+</ul>
+
+<h3 id="service-advertisement-flow">Service Advertisement Flow</h3>
+
+<ul>
+  <li>Node advertises Service VIP to fabric via BGP.</li>
+  <li>Leaf switches propagate the route across spines (ECMP paths).</li>
+  <li>DCI fabric shares the route across datacenters.</li>
+  <li>Edge fabric routes external traffic to the correct node.</li>
+  <li>Failures are handled seamlessly, with remaining nodes continuing to advertise VIPs.</li>
+</ul>
+
+<h3 id="why-service-ips-are-added-to-loopback">Why Service IPs Are Added to Loopback</h3>
+
+<ul>
+  <li>Service IPs are virtual and unbound from physical interfaces.</li>
+  <li>Assigning them to the node’s loopback makes them stable BGP hosts.</li>
+  <li>Advertising these as /32 routes ensures accurate reachability.</li>
+  <li>Supports HA and ECMP forwarding of service traffic across the fabric.</li>
+</ul>
+
+<h3 id="why-pod-ips-are-advertised-automatically">Why Pod IPs Are Advertised Automatically</h3>
+
+<ul>
+  <li>Pods obtain dynamic IPs within node-specific CIDRs.</li>
+  <li>These IPs map to kernel-managed routes automatically.</li>
+  <li>FRR redistributes kernel routes, advertising pod presence dynamically.</li>
+  <li>Automation reduces manual config and promotes real-time fabric update.</li>
+</ul>
+
+<h2 id="extended-theory">Extended Theory</h2>
+
+<h3 id="bgp-benefits-in-k8s">BGP Benefits in K8s</h3>
+
+<ul>
+  <li><strong>Loop-free routing:</strong> BGP prevents routing loops even with multiple paths.</li>
+  <li><strong>Scalability:</strong> Thousands of nodes and services can be advertised without massive L2 overlays.</li>
+  <li><strong>Policy Control:</strong> Route-maps and filters can enforce service placement policies.</li>
+</ul>
+
+<h3 id="ecmp-considerations">ECMP Considerations</h3>
+
+<ul>
+  <li>Provides <strong>load distribution</strong> across multiple paths.</li>
+  <li>Works best with <strong>stable loopback next-hops</strong>.</li>
+  <li>May require tuning for <strong>hash algorithms</strong> to avoid uneven traffic flows.</li>
+</ul>
+
+<h3 id="bfd-insights">BFD Insights</h3>
+
+<ul>
+  <li>Detects link or node failure in <strong>milliseconds</strong>.</li>
+  <li>Reduces downtime by quickly withdrawing unreachable routes.</li>
+  <li>Works alongside BGP to trigger failover without waiting for BGP timers.</li>
+</ul>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ul>
+  <li>Use <strong>automation</strong> (Ansible, operators) for FRR configs.</li>
+  <li>Maintain <strong>IP consistency</strong> across datacenters to avoid routing conflicts.</li>
+  <li>Monitor <strong>BGP and BFD sessions</strong> actively.</li>
+  <li>Secure routing with <strong>prefix filters</strong> and <strong>network policies</strong>.</li>
+  <li>Test failover scenarios regularly.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>By extending Kubernetes into the <strong>Clos fabric</strong> using <strong>FRR, BGP, ECMP, and BFD</strong>, enterprises can:</p>
+
+<ul>
+  <li>Treat Pods and Services as <strong>natively routable entities</strong>.</li>
+  <li>Achieve <strong>sub-second failover</strong> with BFD.</li>
+  <li>Use <strong>IPv6 BGP unnumbered</strong> to simplify operations.</li>
+  <li>Scale workloads <strong>horizontally across multiple datacenters</strong>.</li>
+</ul>
+
+<p>This design delivers <strong>cloud-like networking behavior</strong> for on-prem deployments — allowing Kubernetes services to remain globally reachable, highly available, and scalable across fabrics.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-09-21T00:00:00+05:30">September 21, 2025</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/2025/09/01/first-post.html" class="pagination--pager" title="Automating Bare Metal with Terraform &amp; MAAS">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2025 <a href="http://localhost:4000">Anurag Khuntia</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

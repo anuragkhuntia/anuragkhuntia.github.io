@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-23T19:51:03+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Anurag Khuntia</title><subtitle>Personal blog on networking, Kubernetes, and systems.</subtitle><author><name>Anurag Khuntia</name></author><entry><title type="html">Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD</title><link href="http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd.html" rel="alternate" type="text/html" title="Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD" /><published>2025-09-21T00:00:00+05:30</published><updated>2025-09-21T00:00:00+05:30</updated><id>http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd</id><content type="html" xml:base="http://localhost:4000/2025/09/21/k8s-bgp-ecmp-bfd.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<p>Kubernetes powers mission-critical applications, many of which run in on-premises datacenters spanning multiple sites.</p>
+
+<p>Unlike public clouds that abstract multi-region networking, on-premises Kubernetes deployments require <strong>native, scalable underlay fabrics</strong> to route Pod and Service IPs efficiently.</p>
+
+<p>Cloud providers simplify networking using managed services. However, in on-prem environments, architects must build <strong>resilient, scalable, and observable network fabrics</strong> that ensure Pod and Service reachability with fast, predictable failover.</p>
+
+<hr />
+
+<h2 id="core-networking-challenges">Core Networking Challenges</h2>
+
+<p>On-prem Kubernetes networking introduces a unique set of challenges:</p>
+
+<ol>
+  <li><strong>Scalable Routing:</strong> Large clusters quickly outgrow static routes and L2 overlays.</li>
+  <li><strong>Fast Failover:</strong> Without sub-second rerouting, workloads may become unreachable on failure.</li>
+  <li><strong>Multi-Datacenter Reachability:</strong> Routing consistency across geographically separate sites is critical.</li>
+  <li><strong>Operational Simplicity:</strong> Managing IPs for Clos topologies can introduce significant complexity.</li>
+</ol>
+
+<hr />
+
+<h2 id="clos-fabrics-and-dynamic-routing">Clos Fabrics and Dynamic Routing</h2>
+
+<p>A <strong>Clos (leaf-spine)</strong> network provides the backbone for scalable, fault-tolerant datacenter networking.</p>
+
+<h3 id="leaf-switches">Leaf Switches</h3>
+<ul>
+  <li>Connect directly to Kubernetes nodes.</li>
+  <li>Peer with spines or border devices using BGP.</li>
+  <li>Serve as first-hop routers for traffic entering the fabric.</li>
+</ul>
+
+<h3 id="spine-switches">Spine Switches</h3>
+<ul>
+  <li>Interconnect leaf switches.</li>
+  <li>Provide multiple equal-cost paths (ECMP).</li>
+  <li>Support redundancy and high bandwidth.</li>
+</ul>
+
+<h3 id="border-leaf-switches">Border Leaf Switches</h3>
+<ul>
+  <li>Bridge internal fabrics with WAN/Internet/DCI.</li>
+  <li>Handle egress/ingress and inter-datacenter communication.</li>
+</ul>
+
+<h3 id="super-spines-optional">Super Spines (Optional)</h3>
+<ul>
+  <li>Used in hyperscale environments.</li>
+  <li>Connect multiple spine layers for additional ECMP and scale.</li>
+</ul>
+
+<hr />
+
+<h3 id="ecmp-equal-cost-multi-path">ECMP (Equal-Cost Multi-Path)</h3>
+
+<p>ECMP spreads traffic across multiple paths of equal cost:</p>
+<ul>
+  <li>Enables <strong>high availability</strong>.</li>
+  <li>Improves <strong>bandwidth utilization</strong>.</li>
+  <li>Simplifies <strong>failure recovery</strong>.</li>
+</ul>
+
+<hr />
+
+<h2 id="ipv6-bgp-unnumbered-scaling-the-control-plane">IPv6 BGP Unnumbered: Scaling the Control Plane</h2>
+
+<p>Traditional IPv4 BGP requires point-to-point subnets, which doesn’t scale well.</p>
+
+<h3 id="ipv6-bgp-unnumbered-benefits">IPv6 BGP Unnumbered Benefits:</h3>
+
+<ul>
+  <li>Uses <strong>link-local IPv6 addresses</strong> to establish BGP sessions.</li>
+  <li>Eliminates the need for /30 or /31 subnets.</li>
+  <li>IPv4 routes are still advertised normally.</li>
+  <li>Reduces IP planning and automation complexity.</li>
+</ul>
+
+<p><strong>Key Insight:</strong> Use IPv6 for the control plane, IPv4 for the data plane.</p>
+
+<hr />
+
+<h2 id="running-frr-on-kubernetes-nodes">Running FRR on Kubernetes Nodes</h2>
+
+<p>Deploying <strong>FRR (Free Range Routing)</strong> on Kubernetes nodes turns them into routers:</p>
+
+<ul>
+  <li>Advertises <strong>Pod CIDRs</strong> and <strong>Service VIPs</strong> directly into the fabric.</li>
+  <li>Enables <strong>BFD</strong> for fast route withdrawal (&lt;1s).</li>
+  <li>Uses <strong>loopback addresses</strong> for ECMP stability.</li>
+  <li>Avoids encapsulation; traffic is routed natively via L3.</li>
+</ul>
+
+<p>This model makes workloads <strong>visible and routable</strong> throughout the Clos fabric.</p>
+
+<hr />
+
+<h2 id="ip-addressing-model">IP Addressing Model</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Segment</th>
+      <th>Example</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Node</td>
+      <td>10.10.19.x</td>
+      <td>Loopback IP for BGP router ID</td>
+    </tr>
+    <tr>
+      <td>Pod</td>
+      <td>10.10.20.x</td>
+      <td>Pod IP range (via Pod CIDRs)</td>
+    </tr>
+    <tr>
+      <td>Service</td>
+      <td>10.10.21.x</td>
+      <td>VIPs (ClusterIP or LB services)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="example">Example:</h3>
+<ul>
+  <li>Node loopback: <code class="language-plaintext highlighter-rouge">10.10.19.10</code></li>
+  <li>Pod IP: <code class="language-plaintext highlighter-rouge">10.10.20.5</code></li>
+  <li>Service VIP: <code class="language-plaintext highlighter-rouge">10.10.21.40/32</code></li>
+</ul>
+
+<p>This segmentation separates infrastructure and workload IPs for cleaner routing policies.</p>
+
+<hr />
+
+<h2 id="sample-frr-configuration">Sample FRR Configuration</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>frr version 8.1
+frr defaults traditional
+<span class="nb">hostname </span>cp1
+log syslog informational
+no ipv6 forwarding
+service integrated-vtysh-config
+
+interface eno5
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
+<span class="nb">exit
+
+</span>interface eno7
+ ipv6 nd ra-interval 6
+ no ipv6 nd suppress-ra
+<span class="nb">exit
+
+</span>interface lo
+ ip address 10.10.19.10/32     <span class="c"># Node loopback</span>
+ ip address 10.10.21.66/32     <span class="c"># Service VIP</span>
+ ip address 10.10.21.227/32    <span class="c"># Additional VIP</span>
+<span class="nb">exit
+
+</span>router bgp 65496
+ bgp router-id 10.10.19.10
+ bgp bestpath as-path multipath-relax
+
+ neighbor TOR peer-group
+ neighbor TOR remote-as internal
+ neighbor TOR bfd
+ neighbor TOR timers 1 3
+
+ neighbor eno5 interface peer-group TOR
+ neighbor eno7 interface peer-group TOR
+
+ bgp fast-convergence
+
+ address-family ipv4 unicast
+  network 10.10.19.10/32
+  network 10.10.21.66/32
+  network 10.10.21.227/32
+  redistribute kernel
+  redistribute connected
+ exit-address-family
+<span class="nb">exit</span>
+
+</code></pre></div></div>
+
+<h2 id="fabrics-overview">Fabrics Overview</h2>
+
+<p><strong>App Fabrics</strong></p>
+
+<ul>
+  <li>Kubernetes clusters in individual datacenters.</li>
+  <li>Node, Pod, Service routes advertised into Clos fabric.</li>
+  <li>ECMP provides multi-path load balance.</li>
+  <li>BFD triggers fast failover on node/link faults.</li>
+</ul>
+
+<p><strong>DCI Fabric</strong></p>
+
+<ul>
+  <li>Connects multiple App Fabrics geographically.</li>
+  <li>Propagates routes between datacenters.</li>
+  <li>Enables cross-site service reachability and workload scaling.</li>
+</ul>
+
+<p><strong>Edge Fabric</strong></p>
+
+<ul>
+  <li>Manages north-south ingress/egress.</li>
+  <li>Applies policy and security before external exposure.</li>
+  <li>Connects to the internet, WANs, or partner clouds.</li>
+</ul>
+
+<p><img src="/assets/images/kubernets_onprem_fabric.png" alt="Clos fabric with Leaf, Spine, Border Leaf, and Super Spine" /></p>
+
+<h2 id="bgp-ecmp-and-bfd-in-action">BGP, ECMP, and BFD in Action</h2>
+
+<h3 id="multi-bgp-neighbor-setup">Multi-BGP Neighbor Setup</h3>
+
+<ul>
+  <li>Each node peers with two upstream leaf switches.</li>
+  <li>ECMP allows traffic to utilize both uplinks efficiently.</li>
+  <li><strong>BFD</strong> ensures failures are detected sub-second, allowing FRR to withdraw routes immediately.</li>
+</ul>
+
+<h3 id="service-advertisement-flow">Service Advertisement Flow</h3>
+
+<ul>
+  <li>Node advertises Service VIP to fabric via BGP.</li>
+  <li>Leaf switches propagate the route across spines (ECMP paths).</li>
+  <li>DCI fabric shares the route across datacenters.</li>
+  <li>Edge fabric routes external traffic to the correct node.</li>
+  <li>Failures are handled seamlessly, with remaining nodes continuing to advertise VIPs.</li>
+</ul>
+
+<h3 id="why-service-ips-are-added-to-loopback">Why Service IPs Are Added to Loopback</h3>
+
+<ul>
+  <li>Service IPs are virtual and unbound from physical interfaces.</li>
+  <li>Assigning them to the node’s loopback makes them stable BGP hosts.</li>
+  <li>Advertising these as /32 routes ensures accurate reachability.</li>
+  <li>Supports HA and ECMP forwarding of service traffic across the fabric.</li>
+</ul>
+
+<h3 id="why-pod-ips-are-advertised-automatically">Why Pod IPs Are Advertised Automatically</h3>
+
+<ul>
+  <li>Pods obtain dynamic IPs within node-specific CIDRs.</li>
+  <li>These IPs map to kernel-managed routes automatically.</li>
+  <li>FRR redistributes kernel routes, advertising pod presence dynamically.</li>
+  <li>Automation reduces manual config and promotes real-time fabric update.</li>
+</ul>
+
+<h2 id="extended-theory">Extended Theory</h2>
+
+<h3 id="bgp-benefits-in-k8s">BGP Benefits in K8s</h3>
+
+<ul>
+  <li><strong>Loop-free routing:</strong> BGP prevents routing loops even with multiple paths.</li>
+  <li><strong>Scalability:</strong> Thousands of nodes and services can be advertised without massive L2 overlays.</li>
+  <li><strong>Policy Control:</strong> Route-maps and filters can enforce service placement policies.</li>
+</ul>
+
+<h3 id="ecmp-considerations">ECMP Considerations</h3>
+
+<ul>
+  <li>Provides <strong>load distribution</strong> across multiple paths.</li>
+  <li>Works best with <strong>stable loopback next-hops</strong>.</li>
+  <li>May require tuning for <strong>hash algorithms</strong> to avoid uneven traffic flows.</li>
+</ul>
+
+<h3 id="bfd-insights">BFD Insights</h3>
+
+<ul>
+  <li>Detects link or node failure in <strong>milliseconds</strong>.</li>
+  <li>Reduces downtime by quickly withdrawing unreachable routes.</li>
+  <li>Works alongside BGP to trigger failover without waiting for BGP timers.</li>
+</ul>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ul>
+  <li>Use <strong>automation</strong> (Ansible, operators) for FRR configs.</li>
+  <li>Maintain <strong>IP consistency</strong> across datacenters to avoid routing conflicts.</li>
+  <li>Monitor <strong>BGP and BFD sessions</strong> actively.</li>
+  <li>Secure routing with <strong>prefix filters</strong> and <strong>network policies</strong>.</li>
+  <li>Test failover scenarios regularly.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>By extending Kubernetes into the <strong>Clos fabric</strong> using <strong>FRR, BGP, ECMP, and BFD</strong>, enterprises can:</p>
+
+<ul>
+  <li>Treat Pods and Services as <strong>natively routable entities</strong>.</li>
+  <li>Achieve <strong>sub-second failover</strong> with BFD.</li>
+  <li>Use <strong>IPv6 BGP unnumbered</strong> to simplify operations.</li>
+  <li>Scale workloads <strong>horizontally across multiple datacenters</strong>.</li>
+</ul>
+
+<p>This design delivers <strong>cloud-like networking behavior</strong> for on-prem deployments — allowing Kubernetes services to remain globally reachable, highly available, and scalable across fabrics.</p>]]></content><author><name>Anurag Khuntia</name></author><summary type="html"><![CDATA[Exploring scalable Kubernetes networking for multi-site on-prem clusters.]]></summary></entry><entry><title type="html">Automating Bare Metal with Terraform &amp;amp; MAAS</title><link href="http://localhost:4000/2025/09/01/first-post.html" rel="alternate" type="text/html" title="Automating Bare Metal with Terraform &amp;amp; MAAS" /><published>2025-09-01T00:00:00+05:30</published><updated>2025-09-01T00:00:00+05:30</updated><id>http://localhost:4000/2025/09/01/first-post</id><content type="html" xml:base="http://localhost:4000/2025/09/01/first-post.html"><![CDATA[<p>Provisioning servers manually is slow and error-prone.<br />
+In this post, I’ll share how I automated <strong>bare metal provisioning</strong> using:</p>
+
+<ul>
+  <li>Terraform for infrastructure as code</li>
+  <li>MAAS (Metal-as-a-Service) for managing hardware</li>
+  <li>Ansible for configuration management</li>
+</ul>
+
+<p>The result: <strong>70% faster deployments</strong> for UPI and IMPS workloads.</p>]]></content><author><name>Anurag Khuntia</name></author><summary type="html"><![CDATA[Provisioning servers manually is slow and error-prone. In this post, I’ll share how I automated bare metal provisioning using:]]></summary></entry></feed>

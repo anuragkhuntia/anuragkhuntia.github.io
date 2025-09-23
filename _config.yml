@@ -1,18 +1,9 @@
-trainee@HYDTEST:~/anurag/anuragkhuntia.github.io$ cat _config.yml 
-remote_theme: mmistakes/minimal-mistakes
-plugins:
-  - jekyll-remote-theme
-  - jekyll-include-cache
-  - jekyll-toc
-  - jekyll-paginate
-
-
 title: "Anurag Khuntia"
 description: "Personal blog on networking, Kubernetes, and systems."
 url: "https://anuragkhuntia.github.io"
 
 # Theme
-remote_theme: mmistakes/minimal-mistakes
+remote_theme: "mmistakes/minimal-mistakes"
 
 # Minimal Mistakes settings
 minimal_mistakes_skin: default
@@ -50,11 +41,13 @@ defaults:
       toc_label: "On this page"
       toc_icon: "list"
 
-# Plugins
+# Plugins (only define once)
 plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-toc
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-include-cache
 
