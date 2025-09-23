@@ -3,6 +3,9 @@ layout: default
 ---
 
 <article class="post-article">
+  {% if site.breadcrumbs %}
+    {% include breadcrumbs.html %}
+  {% endif %}	
 
   {%- if page.header.image -%}
     <div class="post-header-image">

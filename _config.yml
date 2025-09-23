@@ -7,6 +7,8 @@ url: "https://anuragkhuntia.github.io"
 # Use Minimal Mistakes as remote theme
 remote_theme: "mmistakes/minimal-mistakes"
 
+breadcrumbs: true
+
 permalink: /:categories/:year/:month/:day/:title/
 
 # Plugins required by GitHub Pages and theme
@@ -64,6 +66,15 @@ collections:
 
 # Enable excerpts
 excerpt_separator: <!--more-->
+
+# Navigation Links
+nav:
+  - title: "Home"
+    url: /
+  - title: "Blog"
+    url: /blog/
+  - title: "About"
+    url: /about/
 
 # Add navigation
 header_pages:

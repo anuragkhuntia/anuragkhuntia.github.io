@@ -265,3 +265,23 @@ body.dark-mode .card {
   margin-left: 1rem;
 }
 
+/* Navbar styles */
+.site-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background: #0366d6;
+  padding: 1rem;
+  border-radius: 0 0 8px 8px;
+}
+
+.site-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
+}
+
