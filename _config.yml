@@ -68,20 +68,20 @@ collections:
 excerpt_separator: <!--more-->
 
 # Navigation Links
-nav:
-  - title: "Home"
-    url: /
-  - title: "Blog"
-    url: /blog/
-  - title: "About"
-    url: /about/
+#nav:
+#  - title: "Home"
+#    url: /
+#  - title: "Blog"
+#    url: /blog/
+#  - title: "About"
+#    url: /about/
 
 # Add navigation
 header_pages:
   - index.html
   - _pages/about.md
   - blog.html
-  - resume.pdf
+    #  - resume.pdf
 
 # _config.yml
 seo:

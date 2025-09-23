@@ -1,16 +1,14 @@
 ---
+layout: single
 title: "Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD"
 excerpt: "Designing multi-datacenter Kubernetes networking using BGP, ECMP, BFD, and Clos fabrics."
-layout: single
-classes: wide
-permalink: /k8s-bgp-ecmp-bfd/
-author: "Anurag Khuntia"
 date: 2025-09-21
-read_time: true
-share: true
-comments: false
-related: true
+author: "Anurag Khuntia"
+toc: true
+toc_label: "Table of Contents"
+toc_sticky: true
 categories: 
+  - blog
   - Kubernetes
   - Networking
   - BGP
