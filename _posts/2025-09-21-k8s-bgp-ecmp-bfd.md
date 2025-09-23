@@ -178,6 +178,8 @@ router bgp 65496
  exit-address-family
 exit
 
+```
+
 ## Fabrics Overview
 
 **App Fabrics**
@@ -198,7 +200,7 @@ exit
 - Manages north-south ingress/egress.
 - Applies policy and security before external exposure.
 - Connects to the internet, WANs, or partner clouds.
-```
+
 ![Clos fabric with Leaf, Spine, Border Leaf, and Super Spine](/assets/images/kubernets_onprem_fabric.png){width="6.5in" height="3.5277in"}
 
 ## BGP, ECMP, and BFD in Action
