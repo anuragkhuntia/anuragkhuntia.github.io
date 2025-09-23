@@ -93,3 +93,25 @@ a:hover {
   text-decoration: underline;
 }
 
+// Accent card styling
+.card {
+  background: #f6f8fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(3,102,214,0.10);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  border-left: 5px solid #0366d6;
+}
+.card .btn {
+  display: inline-block;
+  background: #0366d6;
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+.card .btn:hover {
+  background: #0057ae;
+}
+

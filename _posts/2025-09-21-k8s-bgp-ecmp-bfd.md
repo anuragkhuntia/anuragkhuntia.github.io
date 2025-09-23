@@ -1,3 +1,8 @@
+excerpt: "Designing multi-datacenter Kubernetes networking using BGP, ECMP, BFD, and Clos fabrics."
+read_time: true
+related: true
+share: true
+comments: false
 ---
 title: "Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD"
 layout: single
@@ -216,7 +221,7 @@ exit
 - Applies policy and security before external exposure.
 - Connects to the internet, WANs, or partner clouds.
 
-![Clos fabric with Leaf, Spine, Border Leaf, and Super Spine](media/image3.png){width="6.5in" height="3.5277in"}
+![Clos fabric with Leaf, Spine, Border Leaf, and Super Spine](/assets/images/kubernets_onprem_fabric.png){width="6.5in" height="3.5277in"}
 
 ## BGP, ECMP, and BFD in Action
 

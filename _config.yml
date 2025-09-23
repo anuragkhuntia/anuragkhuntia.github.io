@@ -55,3 +55,27 @@ assets:
   css:
     - /assets/css/custom.scss
 
+# In _config.yml
+collections:
+  posts:
+    output: true
+
+# Enable excerpts
+excerpt_separator: <!--more-->
+
+# Add navigation
+header_pages:
+  - index.html
+  - _pages/about.md
+  - blog.html
+  - resume.pdf
+
+# _config.yml
+seo:
+  type: "Person"
+  name: "Anurag Khuntia"
+  twitter: username_if_any
+
+header:
+  teaser: /assets/images/kubernets_onprem_fabric.png
+
