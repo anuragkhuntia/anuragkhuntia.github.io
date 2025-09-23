@@ -7,6 +7,8 @@ url: "https://anuragkhuntia.github.io"
 # Use Minimal Mistakes as remote theme
 remote_theme: "mmistakes/minimal-mistakes"
 
+permalink: /:categories/:year/:month/:day/:title/
+
 # Plugins required by GitHub Pages and theme
 plugins:
   - jekyll-include-cache
