@@ -2,6 +2,8 @@ title: "Anurag Khuntia"
 description: "Personal blog on networking, Kubernetes, and systems."
 url: "https://anuragkhuntia.github.io"
 
+permalink: /:title/
+
 # Theme
 remote_theme: "mmistakes/minimal-mistakes"
 
@@ -40,6 +42,8 @@ defaults:
       toc: true
       toc_label: "On this page"
       toc_icon: "list"
+      related: true
+      prev_next: false
 
 # Plugins (only define once)
 plugins:
@@ -50,4 +54,8 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
+
+related_posts:
+  heading: "You may also like"
+  limit: 3   # number of posts to show
 
