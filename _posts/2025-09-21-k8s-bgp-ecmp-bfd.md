@@ -211,7 +211,7 @@ Each Kubernetes node typically peers with two upstream leaf switches. **ECMP** a
 - Automate FRR deployment using tools like **Ansible**, **Helm charts**, or **Kubernetes operators**.  
 - Maintain a consistent **IP addressing scheme** across datacenters to avoid conflicts.  
 - Actively monitor **BGP** and **BFD** sessions for anomalies.  
-- Automate adding **Service IPs into FRR** using **[Cosmolet](https://github.com/platformcosmo/cosmolet)** (an open-source project by PlatformCosmo).  
+- Automate adding **Service IPs into FRR** using **[Cosmolet](https://github.com/platformbuilds/cosmolet)** (an open-source project by PlatformCosmo).  
 - Secure routing with **prefix filters** and **network policies**.  
 - Regularly test **failover scenarios** to ensure resilience.  
 
