@@ -1,94 +1,45 @@
-# Site Settings
 title: "Anurag Khuntia"
-description: "Platform Engineer | DevOps | Cloud | Blog + Portfolio"
-baseurl: "" # leave empty for user site
+description: "Technical Blog"
+baseurl: "" # leave blank if hosted on GitHub Pages root
 url: "https://anuragkhuntia.github.io"
 
-# Use Minimal Mistakes as remote theme
-remote_theme: "mmistakes/minimal-mistakes"
+theme: minimal-mistakes-jekyll
 
+# Enable features
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-toc
+
+# Breadcrumbs
 breadcrumbs: true
 
-permalink: /:categories/:year/:month/:day/:title/
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      sidebar:
+        nav: "main"
+      toc: true
+      toc_label: "Table of Contents"
+      toc_sticky: true
 
-# Plugins required by GitHub Pages and theme
-plugins:
-  - jekyll-include-cache
-  - jekyll-paginate
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-feed
-
-# Author settings
+# Author (used in meta and footer)
 author:
   name: "Anurag Khuntia"
   avatar: "/assets/images/profile.jpg"
-  bio: "Platform Engineer with 3+ years in DevOps, Kubernetes, and Cloud."
+  bio: "Engineer. Blogger. Open Source Enthusiast."
   location: "India"
-  links:
-    - label: "GitHub"
-      icon: "fab fa-github"
-      url: "https://github.com/anuragkhuntia"
-    - label: "LinkedIn"
-      icon: "fab fa-linkedin"
-      url: "https://linkedin.com/in/kanurag03"
-    - label: "Email"
-      icon: "fas fa-envelope"
-      url: "mailto:anuragkhuntia03@gmail.com"
 
-# Pagination for blog index
-paginate: 5
-paginate_path: "/blog/page:num/"
-
-# Syntax highlighting with Rouge
-highlighter: rouge
-
-# Optional typography style from Minimal Mistakes
-typography_style: chesterish
-
-# Fonts — override default Minimal Mistakes fonts for professional look
-font_family_sans: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-font_family_serif: "Merriweather, Georgia, 'Times New Roman', Times, serif"
-
-# Sass settings for compressed output (optional custom scss)
-sass:
-  style: compressed
-
-# Custom CSS file loading
-assets:
-  css:
-    - /assets/css/custom.scss
-
-# In _config.yml
+# Navigation
 collections:
   posts:
     output: true
-
-# Enable excerpts
-excerpt_separator: <!--more-->
-
-# Navigation Links
-#nav:
-#  - title: "Home"
-#    url: /
-#  - title: "Blog"
-#    url: /blog/
-#  - title: "About"
-#    url: /about/
-
-# Add navigation
-header_pages:
-  - index.html
-  - _pages/about.md
-  - blog.html
-    #  - resume.pdf
-
-# _config.yml
-seo:
-  type: "Person"
-  name: "Anurag Khuntia"
-  twitter: username_if_any
-
-header:
-  teaser: /assets/images/kubernets_onprem_fabric.png
+    permalink: /blog/:categories/:year/:month/:day/:title/
 
