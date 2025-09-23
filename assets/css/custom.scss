@@ -120,3 +120,46 @@ a:hover {
   display: none !important;
 }
 
+/* Apply grid layout only for single blog posts */
+.layout--single .page__content {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* Content 75%, TOC 25% */
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Blog content area */
+.layout--single .page__content > *:not(.toc) {
+  grid-column: 1;
+  max-width: 100%;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Table of contents sidebar */
+.layout--single .page__content .toc {
+  grid-column: 2;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+/* ✅ Mobile: stack TOC below content */
+@media (max-width: 900px) {
+  .layout--single .page__content {
+    grid-template-columns: 1fr;
+  }
+  .layout--single .page__content .toc {
+    grid-column: 1;
+    position: relative;
+    top: auto;
+    margin-top: 2rem;
+  }
+}
+
