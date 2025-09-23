@@ -7,6 +7,14 @@ permalink: /:title/
 # Theme
 remote_theme: "mmistakes/minimal-mistakes"
 
+sass:
+  sass_dir: assets/css
+  style: compressed
+
+# Ensure Jekyll processes SCSS in /assets/css
+include:
+  - assets/css/custom.css
+
 # Minimal Mistakes settings
 minimal_mistakes_skin: default
 locale: "en-US"
@@ -44,6 +52,8 @@ defaults:
       toc_icon: "list"
       related: true
       prev_next: false
+      custom_css:
+        - /assets/css/custom.css
 
 # Plugins (only define once)
 plugins:
