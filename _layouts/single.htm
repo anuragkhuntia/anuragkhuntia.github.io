@@ -1,0 +1,91 @@
+---
+layout: default
+---
+
+<article class="post-article">
+
+  {%- if page.header.image -%}
+    <div class="post-header-image">
+      <img src="{{ page.header.image | relative_url }}" alt="{{ page.header.image_alt | default: site.title }}">
+      {%- if page.header.caption -%}
+        <p class="caption">{{ page.header.caption }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    {%- if page.author or page.date -%}
+      <div class="post-meta">
+        {%- if page.author -%}
+          <span class="author">{{ page.author }}</span>
+        {%- endif -%}
+        {%- if page.date -%}
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %-d, %Y" }}</time>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </header>
+
+  {%- if page.toc or page.toc == true -%}
+    {% include toc.html %}
+  {%- endif -%}
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {%- if site.related_posts &amp;&amp; page.related != false -%}
+    {% include related_posts.html %}
+  {%- endif -%}
+
+  {%- if page.comments or site.comments == true -%}
+    {% include comments.html %}
+  {%- endif -%}
+
+</article>
+
+<!-- Add TOC overlay + toggles + dark mode toggle at bottom -->
+<div class="toc-overlay"></div>
+<button id="toc-toggle">☰</button>
+<button id="dark-mode-toggle">🌙</button>
+
+{% include scripts.html %}
+<script>
+// TOC Toggle
+const toc = document.querySelector(".layout--single .page__content .toc");
+const overlay = document.querySelector(".toc-overlay");
+const tocBtn = document.getElementById("toc-toggle");
+
+if (toc && tocBtn && overlay) {
+  tocBtn.addEventListener("click", () => {
+    toc.classList.toggle("open");
+    overlay.classList.toggle("active");
+  });
+  overlay.addEventListener("click", () => {
+    toc.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+}
+
+// Dark Mode Toggle
+const darkBtn = document.getElementById("dark-mode-toggle");
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "dark" ||
+   (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  document.body.classList.add("dark-mode");
+}
+
+if (darkBtn) {
+  darkBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+      localStorage.setItem("theme", "dark");
+    } else {
+      localStorage.setItem("theme", "light");
+    }
+  });
+}
+</script>
+
