@@ -1,45 +1,60 @@
+trainee@HYDTEST:~/anurag/anuragkhuntia.github.io$ cat _config.yml 
+remote_theme: mmistakes/minimal-mistakes
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-toc
+  - jekyll-paginate
+
+
 title: "Anurag Khuntia"
-description: "Technical Blog"
-baseurl: "" # leave blank if hosted on GitHub Pages root
+description: "Personal blog on networking, Kubernetes, and systems."
 url: "https://anuragkhuntia.github.io"
 
-theme: minimal-mistakes-jekyll
+# Theme
+remote_theme: mmistakes/minimal-mistakes
 
-# Enable features
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-archives
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-toc
+# Minimal Mistakes settings
+minimal_mistakes_skin: default
+locale: "en-US"
+search: true
 
-# Breadcrumbs
+# Author
+author:
+  name   : "Anurag Khuntia"
+  avatar : "/assets/images/profile.jpg"
+  bio    : "Networking + Kubernetes enthusiast"
+  location: "India"
+
+# Sidebar
+show_excerpts: true
 breadcrumbs: true
+toc: true
+toc_sticky: true
+paginate: 5
 
-# Default front matter
+# Collections
+collections:
+  posts:
+    output: true
+
+# Defaults
 defaults:
   - scope:
       path: ""
       type: posts
     values:
       layout: single
-      sidebar:
-        nav: "main"
+      author_profile: true
       toc: true
-      toc_label: "Table of Contents"
-      toc_sticky: true
+      toc_label: "On this page"
+      toc_icon: "list"
 
-# Author (used in meta and footer)
-author:
-  name: "Anurag Khuntia"
-  avatar: "/assets/images/profile.jpg"
-  bio: "Engineer. Blogger. Open Source Enthusiast."
-  location: "India"
-
-# Navigation
-collections:
-  posts:
-    output: true
-    permalink: /blog/:categories/:year/:month/:day/:title/
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-include-cache
 
