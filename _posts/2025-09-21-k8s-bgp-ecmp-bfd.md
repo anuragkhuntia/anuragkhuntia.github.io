@@ -3,7 +3,7 @@ layout: single
 title: "Kubernetes Networking Across On-Prem Datacenters with BGP, ECMP, and BFD"
 excerpt: "Exploring scalable Kubernetes networking for multi-site on-prem clusters."
 header:
-  image: /assets/images/kubernets_onprem_fabric.png
+  image: /assets/images/datacenter-k8s.jpeg
   caption: "Kubernetes Networking — BGP, ECMP, and BFD"
 sidebar:
   nav: "main"
