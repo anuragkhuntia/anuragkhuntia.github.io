@@ -22,7 +22,7 @@ tags:
   - bfd
   - clos
 header:
-  overlay_image: /assets/images/kubernets_onprem_fabric.png
+  overlay_image: /assets/images/datacenter.jpeg
   overlay_filter: 0.3
   caption: "Clos fabric with Leaf, Spine, Border Leaf, and Super Spine"
 toc: true
