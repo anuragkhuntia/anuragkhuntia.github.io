@@ -6,6 +6,7 @@ permalink: /:title/
 
 # Theme
 remote_theme: "mmistakes/minimal-mistakes"
+google_site_verification: qua5khiRozT76kQTtF5V4LiWTsMUXD2spPiBURkfTWU
 
 sass:
   sass_dir: assets/css
@@ -19,6 +20,11 @@ include:
 minimal_mistakes_skin: default
 locale: "en-US"
 search: true
+
+# Social links
+twitter_username: "" # if you have one
+github_username: anuragkhuntia
+linkedin: kanurag03
 
 # Author
 author:

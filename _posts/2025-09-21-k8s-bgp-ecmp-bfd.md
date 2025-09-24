@@ -5,6 +5,8 @@ excerpt: "Exploring scalable Kubernetes networking for multi-site on-prem cluste
 header:
   image: /assets/images/datacenter-k8s.jpeg
   teaser: /assets/images/datacenter-k8s.jpeg
+categories: [Kubernetes, Networking]
+tags: [Kubernetes, BGP, ECMP, BFD, Datacenters, On-Prem]
 sidebar:
   nav: "main"
 toc: true
