@@ -93,11 +93,9 @@ ip addr del 10.30.21.232/32 dev lo
 ```
 Cosmolet automatically reconciles the loopback state on every iteration:
 
-Active IPs → retained
-
-Stale IPs → removed
-
-Excluded IPs → preserved (based on config.yaml)
+- Active IPs → retained
+- Stale IPs → removed
+- Excluded IPs → preserved (based on config.yaml)
 
 This ensures that the node’s loopback interface always reflects the real set of advertised service IPs.
 
@@ -131,11 +129,9 @@ This modular integration ensures that Cosmolet can adapt to both fully distribut
 Cosmolet runs as a DaemonSet — ensuring that every node independently manages its local advertisements.
 This design offers:
 
-Horizontal scalability: Each node runs autonomously.
-
-No single point of failure: BGP advertisements are localized.
-
-Leader election support (optional): Used for centralized coordination or cluster-wide statistics.
+- Horizontal scalability: Each node runs autonomously.
+- No single point of failure: BGP advertisements are localized.
+- Leader election support (optional): Used for centralized coordination or cluster-wide statistics.
 
 This decentralized architecture matches Kubernetes’ fault-tolerance model — if a node or pod fails, its routes are automatically withdrawn by FRR’s BGP session teardown.
 
@@ -144,13 +140,10 @@ This decentralized architecture matches Kubernetes’ fault-tolerance model — 
 
 Cosmolet follows a minimal-privilege principle:
 
-Runs as a non-root container.
-
-Uses Linux capabilities (NET_ADMIN) only where required.
-
-No dependency on sudo or privileged mode.
-
-RBAC limited to read-only access on Service and Endpoints resources.
+- Runs as a non-root container.
+- Uses Linux capabilities (NET_ADMIN) only where required.
+- No dependency on sudo or privileged mode.
+- RBAC limited to read-only access on Service and Endpoints resources.
 
 This ensures compatibility with hardened cluster policies and secure multi-tenant setups.
 
@@ -160,11 +153,9 @@ This ensures compatibility with hardened cluster policies and secure multi-tenan
 
 Cosmolet supports multiple deployment methods:
 
-Helm chart for production use with configurable BGP, FRR, and namespace settings.
-
-YAML manifests for quick testing or custom integration.
-
-Custom DaemonSet templates for embedding within existing network operators.
+- Helm chart for production use with configurable BGP, FRR, and namespace settings.
+- YAML manifests for quick testing or custom integration.
+- Custom DaemonSet templates for embedding within existing network operators.
 
 Since it always runs as a DaemonSet, deployment is per-node and aligns with FRR’s operational model.
 
