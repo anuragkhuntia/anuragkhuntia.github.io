@@ -1,0 +1,109 @@
+---
+layout: single
+title: "Cosmolet: Dynamic BGP Service Advertisement for Bare-Metal Kubernetes"
+excerpt: "Exploring automated BGP service IP advertisement for on-prem Kubernetes clusters using FRR."
+header:
+  image: /assets/images/cosmolet-bgp.jpeg
+  teaser: /assets/images/cosmolet-bgp.jpeg
+categories: [Kubernetes, Networking]
+tags: [Kubernetes, BGP, FRR, Bare-Metal, LoadBalancer, On-Prem]
+sidebar:
+  nav: "main"
+toc: true
+toc_label: "Contents"
+breadcrumbs: true
+---
+
+## Introduction
+
+Kubernetes has transformed how we orchestrate containerized workloads. However, running Kubernetes on bare-metal clusters exposes networking challenges absent in cloud environments. Unlike managed cloud LoadBalancers, bare-metal setups often require manual route configuration, external proxies, or appliances to expose services externally.  
+
+**Cosmolet** is an open-source Kubernetes controller designed to solve this problem. By integrating with **FRR (Free Range Routing)**, Cosmolet dynamically advertises service IPs over BGP, enabling bare-metal clusters to expose services to the network fabric automatically. It automates service discovery, loopback IP management, and BGP advertisement, ensuring healthy and available services are reachable without manual intervention.
+
+---
+
+## Challenges in Bare-Metal Kubernetes Networking
+
+Running Kubernetes on bare-metal introduces several unique hurdles:
+
+- **Manual Route Management:** Administrators often configure static routes or modify external routers to make services reachable.  
+- **Service Reliability:** Without health-aware routing, traffic may be sent to pods that are down, causing black-hole routes.  
+- **Overlay Dependency:** Many solutions rely on overlays, adding latency and operational overhead.  
+- **Scalability:** As nodes and services grow, managing route advertisements manually becomes error-prone and unsustainable.  
+
+Cosmolet addresses these by running a lightweight **daemonset** on each node to monitor services and pods, manage loopback IPs, and advertise IPs dynamically to the network via BGP.
+
+---
+
+## Core Features
+
+**Automatic Service Discovery**  
+Cosmolet continuously monitors Kubernetes services across namespaces. It detects new, updated, and deleted services automatically, ensuring the network reflects the cluster's current state.
+
+**BGP Advertisement**  
+In **dynamic mode**, Cosmolet advertises service IPs via BGP using FRR, and withdraws them when services are unhealthy or inactive, preventing black-hole traffic.
+
+**Health-Aware Routing**  
+Cosmolet evaluates pod liveness probes before advertising service IPs. Only healthy services are announced to BGP peers, improving reliability.
+
+**Node-Local Loopback Management**  
+Service IPs are added to each node's loopback interface. Stale or inactive IPs are removed automatically, keeping routing tables accurate.
+
+**Observability**  
+Cosmolet exposes a `/metrics` endpoint compatible with Prometheus, offering metrics such as loopback IP states, BGP advertisement status, and control loop timing. Logs provide insight into loopback management, pod health checks, and BGP operations.
+
+**Security and RBAC**  
+Cosmolet operates with a minimal-privilege Kubernetes service account. It requires only permissions to list pods, services, and nodes, adhering to the principle of least privilege.
+
+---
+
+## How Cosmolet Works
+
+Cosmolet operates in a recurring loop on each node:
+
+1. **Service Discovery:** Queries Kubernetes API for services in configured namespaces.  
+2. **Pod Health Check:** Filters for pods scheduled on the local node and verifies their liveness probes.  
+3. **Loopback Management:** Adds active service IPs to the node’s loopback interface and removes stale ones.  
+4. **BGP Advertisement:** Uses `vtysh` and FRR to advertise or withdraw service IPs to BGP peers.  
+5. **Metrics Exposure:** Updates Prometheus metrics for observability.  
+6. **Logging:** Provides detailed debug information, including active and removed IPs, health checks, and BGP operations.
+
+---
+
+## Deployment Approaches
+
+Cosmolet can be deployed in multiple ways depending on operational preference and cluster management style:
+
+- **Daemonset on Kubernetes:** Run Cosmolet as a daemonset so every node participates in service IP advertisement and loopback management.  
+- **Helm Charts:** Package Cosmolet for reproducible, configurable deployment across clusters.  
+- **GitOps / Operator Models:** Integrate Cosmolet with GitOps pipelines or Kubernetes operators for automated configuration and lifecycle management.  
+
+This flexibility allows clusters of any size or topology to integrate seamlessly with existing FRR-based BGP fabrics.
+
+---
+
+## Operational Workflow
+
+- Cosmolet identifies active service IPs.  
+- Updates the node's loopback interface.  
+- Advertises IPs via BGP in dynamic mode.  
+- Removes stale IPs from loopback.  
+- Exposes metrics and logs for observability.
+
+---
+
+## Benefits
+
+- **Automation:** Reduces manual intervention in BGP advertisement.  
+- **Health-Aware Routing:** Ensures only healthy services are advertised.  
+- **High Availability:** Node-local loopbacks with dynamic advertisement maintain service reachability even during failures.  
+- **Observability:** Prometheus metrics and detailed logs provide real-time insights.  
+- **Security:** Operates with minimal privileges and RBAC.
+
+---
+
+## Conclusion
+
+Cosmolet bridges Kubernetes and bare-metal network fabrics by providing automated service discovery, loopback management, health-aware BGP advertisement, and observability. It simplifies networking, reduces operational complexity, and allows Kubernetes services to be exposed reliably and efficiently across on-premises networks.
+
+**Explore Cosmolet:** [GitHub / Documentation](https://github.com/platformbuilds/cosmolet)
